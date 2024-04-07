@@ -22,7 +22,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),
                 (
                     "last_login",
                     models.DateTimeField(
@@ -32,11 +35,19 @@ class Migration(migrations.Migration):
                 (
                     "email",
                     models.EmailField(
-                        max_length=255, unique=True, verbose_name="email address"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="email address",
                     ),
                 ),
-                ("first_name", models.CharField(blank=True, max_length=255, null=True)),
-                ("last_name", models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "first_name",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                (
+                    "last_name",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
                 (
                     "phone_number",
                     models.CharField(
@@ -51,9 +62,18 @@ class Migration(migrations.Migration):
                     "address_line_2",
                     models.CharField(blank=True, max_length=255, null=True),
                 ),
-                ("city", models.CharField(blank=True, max_length=50, null=True)),
-                ("state", models.CharField(blank=True, max_length=50, null=True)),
-                ("country", models.CharField(blank=True, max_length=50, null=True)),
+                (
+                    "city",
+                    models.CharField(blank=True, max_length=50, null=True),
+                ),
+                (
+                    "state",
+                    models.CharField(blank=True, max_length=50, null=True),
+                ),
+                (
+                    "country",
+                    models.CharField(blank=True, max_length=50, null=True),
+                ),
                 ("is_active", models.BooleanField(default=True)),
                 ("is_owner", models.BooleanField(default=False)),
                 ("is_tenant", models.BooleanField(default=False)),
