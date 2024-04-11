@@ -1,10 +1,14 @@
-from account.models import User
-from account.utils import send_reset_email
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
-                                   smart_str)
+from django.utils.encoding import (
+    DjangoUnicodeDecodeError,
+    force_bytes,
+    smart_str,
+)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
+
+from account.models import User
+from account.utils import send_reset_email
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -15,7 +19,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
-            "phone_number",
             "password",
         ]
         extra_kwargs = {"password": {"write_only": True}}
