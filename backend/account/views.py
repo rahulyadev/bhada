@@ -7,10 +7,14 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import (SendPasswordResetEmailSerializer,
-                          UserChangePasswordSerializer, UserDetailsSerializer,
-                          UserLoginSerializer, UserPasswordResetSerializer,
-                          UserRegistrationSerializer)
+from .serializers import (
+    SendPasswordResetEmailSerializer,
+    UserChangePasswordSerializer,
+    UserDetailsSerializer,
+    UserLoginSerializer,
+    UserPasswordResetSerializer,
+    UserRegistrationSerializer,
+)
 
 
 def get_tokens_for_user(user):

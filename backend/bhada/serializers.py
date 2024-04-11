@@ -1,5 +1,6 @@
-from bhada.utils import convert_validated_nested_field_to_object
 from rest_framework import serializers
+
+from bhada.utils import convert_validated_nested_field_to_object
 
 
 class ValidateModelSerializer(serializers.ModelSerializer):

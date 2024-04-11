@@ -1,8 +1,14 @@
-from account.views import (SendPasswordResetEmailView, UserChangePasswordView,
-                           UserLoginView, UserPasswordResetView,
-                           UserProfileView, UserRegistrationView)
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+
+from account.views import (
+    SendPasswordResetEmailView,
+    UserChangePasswordView,
+    UserLoginView,
+    UserPasswordResetView,
+    UserProfileView,
+    UserRegistrationView,
+)
 
 router = DefaultRouter()
 router.register("profile", UserProfileView, basename="profile_user")
