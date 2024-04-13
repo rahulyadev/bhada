@@ -19,7 +19,7 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'http://127.0.0.1:8000' });
+const api = axios.create({ baseURL: 'http://127.0.0.1:8080' });
 
 // Modified refreshToken function with actual backend call
 async function refreshToken(): Promise<string | null> {
@@ -56,31 +56,23 @@ async function refreshToken(): Promise<string | null> {
 
 // Token Service to manage JWT tokens
 class TokenService {
-  private accessToken: string | null = null;
-  private refreshToken: string | null = null;
-
-  setTokens({
-    accessToken,
-    refreshToken,
-  }: {
-    accessToken: string;
-    refreshToken: string;
-  }) {
-    this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
-  }
-
   getAccessToken() {
-    return this.accessToken;
+    return localStorage.getItem('accessToken');
   }
 
   getRefreshToken() {
-    return this.refreshToken;
+    return localStorage.getItem('refreshToken');
+  }
+
+  setTokens({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
   }
 
   clearTokens() {
-    this.accessToken = null;
-    this.refreshToken = null;
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('id');
   }
 }
 
@@ -121,7 +113,7 @@ function setupInterceptors(api: AxiosInstance, router: Router) {
           // Token refresh has failed, handle accordingly (e.g., redirect to login)
           // You might want to emit an event or call a method to logout the user
           console.error('Token refresh failed, redirecting to login...');
-          router.push('/login');
+          router.push({ name: 'account/LoginUser' });
           // Redirect to login or perform logout
         }
       }
