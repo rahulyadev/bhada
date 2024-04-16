@@ -34,7 +34,7 @@ async function refreshToken(): Promise<string | null> {
 
     // Making an axios call to refresh token endpoint
     const response = await axios.post(
-      'http://127.0.0.1:8000/api/token/refresh/',
+      'http://127.0.0.1:8080/api/token/refresh/',
       {
         refresh: refreshToken,
       },
@@ -64,7 +64,13 @@ class TokenService {
     return localStorage.getItem('refreshToken');
   }
 
-  setTokens({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) {
+  setTokens({
+    accessToken,
+    refreshToken,
+  }: {
+    accessToken: string;
+    refreshToken: string;
+  }) {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   }
@@ -102,7 +108,10 @@ function setupInterceptors(api: AxiosInstance, router: Router) {
     (response: AxiosResponse) => response,
     async (error) => {
       const originalRequest = error.config;
-      if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+      if (
+        (error.response.status === 401 || error.response.status === 403) &&
+        !originalRequest._retry
+      ) {
         originalRequest._retry = true;
         const accessToken = await refreshToken();
         if (accessToken) {

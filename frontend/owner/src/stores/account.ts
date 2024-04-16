@@ -1,26 +1,17 @@
 import { defineStore } from 'pinia';
 import useAccountApi from 'src/api/account';
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { RegisterData, User } from 'src/models/account';
-
+import { RegisterData } from 'src/models/account';
 
 export default defineStore('account', () => {
   const router = useRouter();
   const accountApi = useAccountApi();
-  const user = ref<User>({
-    id: 0,
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone_number: '',
-  });
 
   const loginUser = async (phone_number: string, password: string) => {
     const data = {
       phone_number: phone_number,
-      password: password, 
-    }
+      password: password,
+    };
     const response = await accountApi.login(data);
     console.log(response);
     if (response && response.refresh && response.access) {
@@ -53,25 +44,9 @@ export default defineStore('account', () => {
     router.push({ name: 'account/LoginUser' });
   };
 
-  const getCurrentUser = async () => {
-    const id = localStorage.getItem('id');
-    console.log('id ==>>> ', id);
-    if (!id) {
-      console.log('router ==>>> ', router);
-      const r = router.getRoutes();
-      console.log('r ==>>> ', r);
-      router.push({ name: 'account/LoginUser' });
-      return;
-    }
-    const response = await accountApi.getCurrentUser(id);
-    user.value = response;
-  }
-
   return {
-    user,
     loginUser,
     logout,
     registerUser,
-    getCurrentUser,
   };
 });

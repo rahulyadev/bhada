@@ -19,9 +19,19 @@
           :ripple="false"
           icon="person"
           no-caps
-          :label="accountStore.user.first_name"
+          :label="profileStore.user.first_name"
         >
           <q-list>
+            <q-item clickable @click="goToProfile">
+              <q-item-section>
+                <q-item-label>Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable @click="goToChangePassword">
+              <q-item-section>
+                <q-item-label>Change Password</q-item-label>
+              </q-item-section>
+            </q-item>
             <q-item clickable @click="logout">
               <q-item-section>
                 <q-item-label>Logout</q-item-label>
@@ -62,12 +72,17 @@ import EssentialLink, {
   EssentialLinkProps,
 } from 'components/EssentialLink.vue';
 import useAccountStore from 'src/stores/account';
+import useProfileStore from 'src/stores/profile';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const accountStore = useAccountStore();
+const profileStore = useProfileStore();
 const loading = ref(true);
 
 onMounted(async () => {
-  await accountStore.getCurrentUser();
+  console.log('profileStore', profileStore);
+  await profileStore.getCurrentUser();
   loading.value = false;
 });
 
@@ -94,5 +109,13 @@ function toggleLeftDrawer() {
 
 const logout = () => {
   accountStore.logout();
+};
+
+const goToProfile = () => {
+  router.push({ name: 'profile/UserProfile' });
+};
+
+const goToChangePassword = () => {
+  router.push({ name: 'profile/ChangePassword' });
 };
 </script>

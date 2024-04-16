@@ -1,6 +1,3 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-
 from account.views import (
     SendPasswordResetEmailView,
     UserChangePasswordView,
@@ -9,6 +6,8 @@ from account.views import (
     UserProfileView,
     UserRegistrationView,
 )
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register("profile", UserProfileView, basename="profile_user")
@@ -20,9 +19,9 @@ urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     # path('profile/', UserProfileView.as_view(), name='profile'),
     path(
-        "changepassword/",
+        "change-password/",
         UserChangePasswordView.as_view(),
-        name="changepassword",
+        name="change-password",
     ),
     path(
         "send-reset-password-email/",
