@@ -49,7 +49,9 @@ export default configure((ctx) => {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        BASE_URL: 'http://localhost:8080',
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

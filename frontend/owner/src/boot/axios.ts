@@ -19,7 +19,7 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'http://127.0.0.1:8080' });
+const api = axios.create({ baseURL: process.env.BASE_URL });
 
 // Modified refreshToken function with actual backend call
 async function refreshToken(): Promise<string | null> {
@@ -34,7 +34,7 @@ async function refreshToken(): Promise<string | null> {
 
     // Making an axios call to refresh token endpoint
     const response = await axios.post(
-      'http://127.0.0.1:8080/api/token/refresh/',
+      `${process.env.BASE_URL}/api/token/refresh/`,
       {
         refresh: refreshToken,
       },
@@ -87,6 +87,7 @@ const tokenService = new TokenService();
 function setupInterceptors(api: AxiosInstance, router: Router) {
   // Define your interceptors here, using `router` to redirect
   // Request interceptor for API calls
+  console.log('Setting up interceptors...', process.env.BASE_URL);
   api.interceptors.request.use(
     async (config) => {
       const token = tokenService.getAccessToken();
