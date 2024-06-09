@@ -110,6 +110,7 @@ function setupInterceptors(api: AxiosInstance, router: Router) {
     async (error) => {
       const originalRequest = error.config;
       if (
+        error.response &&
         (error.response.status === 401 || error.response.status === 403) &&
         !originalRequest._retry
       ) {

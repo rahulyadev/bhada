@@ -5,6 +5,9 @@
 
 import { configure } from 'quasar/wrappers';
 import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default configure((ctx) => {
   return {
@@ -50,7 +53,7 @@ export default configure((ctx) => {
       // publicPath: '/',
       // analyze: true,
       env: {
-        BASE_URL: 'http://localhost:8080',
+        BASE_URL: process.env.BASE_URL?.toString(),
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
