@@ -1,7 +1,8 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+
 from .models import Owner
 from .serializers import OwnerSerializer
-from rest_framework.permissions import IsAuthenticated
 
 
 class OwnerViewSet(ModelViewSet):

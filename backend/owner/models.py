@@ -1,5 +1,7 @@
 from django.db import models
+
 from account.models import User
+
 
 class Owner(models.Model):
     """Database model containing data for users."""
@@ -9,7 +11,7 @@ class Owner(models.Model):
         related_name="owner",
         blank=True,
         null=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
     upi_id = models.CharField(max_length=255, null=True)
 

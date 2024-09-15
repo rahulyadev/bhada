@@ -1,19 +1,20 @@
-from rest_framework.response import Response
+from django.contrib.auth import authenticate
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from .models import User
 from .serializers import (
     SendPasswordResetEmailSerializer,
     UserChangePasswordSerializer,
+    UserDetailsSerializer,
     UserLoginSerializer,
     UserPasswordResetSerializer,
-    UserDetailsSerializer,
     UserRegistrationSerializer,
 )
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
-from .models import User
 
 
 def get_tokens_for_user(user):
@@ -48,11 +49,16 @@ class UserLoginView(APIView):
         if user is not None:
             token = get_tokens_for_user(user)
             return Response(
-                {"token": token, "msg": "Login Success"}, status=status.HTTP_200_OK
+                {"token": token, "msg": "Login Success"},
+                status=status.HTTP_200_OK,
             )
         else:
             return Response(
-                {"errors": {"non_field_errors": ["Email or Password is not Valid"]}},
+                {
+                    "errors": {
+                        "non_field_errors": ["Email or Password is not Valid"]
+                    }
+                },
                 status=status.HTTP_404_NOT_FOUND,
             )
 

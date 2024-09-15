@@ -1,9 +1,11 @@
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, phone_number, password=None):
+    def create_user(
+        self, phone_number, password=None, email="", first_name="", last_name=""
+    ):
         """
         Creates and saves a User with the given email, name, phone_number and password.
         """
@@ -12,6 +14,9 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             phone_number=phone_number,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
         )
 
         user.set_password(password)
