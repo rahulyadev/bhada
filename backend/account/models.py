@@ -65,7 +65,7 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "phone_number"
 
     def __str__(self):
-        return f"{self.email} - {self.get_full_name}"
+        return f"{self.phone_number} - {self.get_full_name}"
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

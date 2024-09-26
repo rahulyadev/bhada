@@ -19,7 +19,7 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'http://127.0.0.1:8000' });
+const api = axios.create({ baseURL: process.env.BASE_URL });
 
 // Modified refreshToken function with actual backend call
 async function refreshToken(): Promise<string | null> {
@@ -34,7 +34,7 @@ async function refreshToken(): Promise<string | null> {
 
     // Making an axios call to refresh token endpoint
     const response = await axios.post(
-      'http://127.0.0.1:8000/api/token/refresh/',
+      `${process.env.BASE_URL}/api/token/refresh/`,
       {
         refresh: refreshToken,
       },
@@ -56,8 +56,13 @@ async function refreshToken(): Promise<string | null> {
 
 // Token Service to manage JWT tokens
 class TokenService {
-  private accessToken: string | null = null;
-  private refreshToken: string | null = null;
+  getAccessToken() {
+    return localStorage.getItem('accessToken');
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem('refreshToken');
+  }
 
   setTokens({
     accessToken,
@@ -66,21 +71,14 @@ class TokenService {
     accessToken: string;
     refreshToken: string;
   }) {
-    this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
-  }
-
-  getAccessToken() {
-    return this.accessToken;
-  }
-
-  getRefreshToken() {
-    return this.refreshToken;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
   }
 
   clearTokens() {
-    this.accessToken = null;
-    this.refreshToken = null;
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('id');
   }
 }
 
@@ -89,6 +87,7 @@ const tokenService = new TokenService();
 function setupInterceptors(api: AxiosInstance, router: Router) {
   // Define your interceptors here, using `router` to redirect
   // Request interceptor for API calls
+  console.log('Setting up interceptors...', process.env.BASE_URL);
   api.interceptors.request.use(
     async (config) => {
       const token = tokenService.getAccessToken();
@@ -110,7 +109,11 @@ function setupInterceptors(api: AxiosInstance, router: Router) {
     (response: AxiosResponse) => response,
     async (error) => {
       const originalRequest = error.config;
-      if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403) &&
+        !originalRequest._retry
+      ) {
         originalRequest._retry = true;
         const accessToken = await refreshToken();
         if (accessToken) {
@@ -121,7 +124,7 @@ function setupInterceptors(api: AxiosInstance, router: Router) {
           // Token refresh has failed, handle accordingly (e.g., redirect to login)
           // You might want to emit an event or call a method to logout the user
           console.error('Token refresh failed, redirecting to login...');
-          router.push('/login');
+          router.push({ name: 'account/LoginUser' });
           // Redirect to login or perform logout
         }
       }

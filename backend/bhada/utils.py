@@ -8,8 +8,8 @@ def convert_validated_nested_field_to_object(
     validated_data,
     nested_field_name,
     queryset,
-    partial=False,
-    many_to_many=False,
+    partial: bool=False,
+    many_to_many: bool=False,
 ):
     if partial and nested_field_name not in validated_data:
         return validated_data

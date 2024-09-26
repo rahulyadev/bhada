@@ -1,14 +1,25 @@
+import useAccountRoutes from './account';
+import useProfileRoutes from './profile';
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: '',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      { path: '', name: 'Home', component: () => import('pages/HomePage.vue') },
+    ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: '/account/',
+    component: () => import('layouts/AccountLayout.vue'),
+    children: useAccountRoutes(),
+  },
+  {
+    path: '/user/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: useProfileRoutes(),
+  },
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

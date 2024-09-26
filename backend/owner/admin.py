@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from owner.models import Owner
 
 
@@ -19,4 +18,4 @@ class OwnerModelAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Owner)
+admin.site.register(Owner, OwnerModelAdmin)
