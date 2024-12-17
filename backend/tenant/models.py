@@ -1,5 +1,7 @@
 from django.db import models
+
 from account.models import User
+
 
 class Tenant(models.Model):
     """Database model containing data for users."""
@@ -9,7 +11,7 @@ class Tenant(models.Model):
         related_name="tenant",
         blank=True,
         null=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
     aadhar_card_number = models.IntegerField(null=True)
     pan_card_number = models.CharField(max_length=10, null=True)

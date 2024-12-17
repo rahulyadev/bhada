@@ -1,6 +1,7 @@
 from django.contrib import admin
-from account.models import User
 from django.contrib.auth.admin import UserAdmin
+
+from account.models import User
 
 
 class UserModelAdmin(UserAdmin):
@@ -19,7 +20,7 @@ class UserModelAdmin(UserAdmin):
     fieldsets = (
         ("User Credentials", {"fields": ("phone_number", "password")}),
         ("Personal info", {"fields": ("first_name", "last_name", "email")}),
-        ("Permissions", {"fields": ("is_admin",)}),
+        ("Permissions", {"fields": ("is_admin", "is_tenant", "is_owner")}),
     )
     add_fieldsets = (
         (
